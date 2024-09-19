@@ -1,0 +1,206 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="patient-registration-page">
+    <div class="form-container">
+        <h2 class="form-title">@ViewData["Title"]</h2>
+
+<form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="form-floating">
+        <input asp-for="Input.userName" class="form-control" aria-required="true" />
+        <label asp-for="Input.userName"></label>
+        <span asp-validation-for="Input.userName" class="text-danger"></span>
+    </div>
+
+    <div class="form-floating">
+        <input asp-for="Input.Birthdate" class="form-control" type="date" aria-required="true" />
+        <label asp-for="Input.Birthdate"></label>
+        <span asp-validation-for="Input.Birthdate" class="text-danger"></span>
+    </div>
+
+    <div class="form-floating">
+        <input asp-for="Input.Address" class="form-control" aria-required="true" />
+        <label asp-for="Input.Address"></label>
+        <span asp-validation-for="Input.Address" class="text-danger"></span>
+    </div>
+
+    <div class="form-floating">
+        <input asp-for="Input.Email" class="form-control" autocomplete="userName" aria-required="true" />
+        <label asp-for="Input.Email"></label>
+        <span asp-validation-for="Input.Email" class="text-danger"></span>
+    </div>
+
+    <div class="form-floating">
+        <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" />
+        <label asp-for="Input.Password"></label>
+        <span asp-validation-for="Input.Password" class="text-danger"></span>
+    </div>
+
+    <div class="form-floating">
+        <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" />
+        <label asp-for="Input.ConfirmPassword"></label>
+        <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+    </div>
+
+    <div class="form-floating">
+        <select asp-for="Input.Roles" class="form-control" aria-required="true" id="roleSelect">
+            <option value="Patient">Patient/Citizen</option>
+            <option value="HealthProvider">Health Provider</option>
+            <option value="Admin">Admin</option>
+        </select>
+        <label asp-for="Input.Roles">Role</label>
+        <span asp-validation-for="Input.Roles" class="text-danger"></span>
+    </div>
+
+    <div id="healthProviderFields" style="display: none;">
+        <div class="form-floating">
+            <input asp-for="Input.LicenseNumber" class="form-control" />
+            <label asp-for="Input.LicenseNumber">License Number</label>
+            <span asp-validation-for="Input.LicenseNumber" class="text-danger"></span>
+        </div>
+
+        <div class="form-floating">
+            <input asp-for="Input.EmployeeNumber" class="form-control" />
+            <label asp-for="Input.EmployeeNumber">Employee Number</label>
+            <span asp-validation-for="Input.EmployeeNumber" class="text-danger"></span>
+        </div>
+    </div>
+
+    <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        document.getElementById('roleSelect').addEventListener('change', function () {
+            var roles = this.value;
+            var healthProviderFields = document.getElementById('healthProviderFields');
+            if (roles === 'HealthProvider' || roles === 'Admin') {
+                healthProviderFields.style.display = 'block';
+            } else {
+                healthProviderFields.style.display = 'none';
+            }
+        });
+    </script>
+}
+
+</div>
+</div>
+
+<style>
+    /* General Styling */
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        height: 100vh;
+    }
+
+    /* Login Page Styling */
+    .login-page {
+        width: 100%;
+        height: 90%;
+    }
+
+    /* Form Container */
+    .form-container {
+        background-color: #ffffff;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 8px 16px rgba(173, 216, 230, 0.4), 0 6px 20px rgba(173, 216, 230, 0.3);
+        width: 100%;
+        max-height: 80vh; /* Adjust based on your needs */
+        overflow-y: auto;
+        max-width: 400px;
+        margin: 0 1rem;
+    }
+
+    /* Form Title */
+    .form-title {
+        text-align: center;
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+        color: #333;
+    }
+
+    /* Input Group */
+    .input-group {
+        margin-bottom: 1.5rem;
+    }
+
+    /* Input Labels */
+    .input-label {
+        display: block;
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+        color: #555;
+    }
+
+    /* Input Fields */
+    .input-field {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 1rem;
+        box-sizing: border-box;
+    }
+
+        .input-field:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+    /* Error Message Styling */
+    .error-message {
+        color: #e74c3c;
+        font-size: 0.85rem;
+    }
+
+    /* Checkbox Styling */
+    .checkbox-label {
+        margin-left: 0.5rem;
+        font-size: 0.9rem;
+        color: #555;
+    }
+
+    /* Buttons */
+    .btn {
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 5px;
+        font-size: 1rem;
+        cursor: pointer;
+        width: 100%;
+    }
+
+    .btn-login {
+        background-color: #007bff;
+        color: white;
+    }
+
+        .btn-login:hover {
+            background-color: #0056b3;
+        }
+
+    /* Form Footer Links */
+    .form-footer {
+        text-align: center;
+        margin-top: 1rem;
+    }
+
+        .form-footer .link {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+            .form-footer .link:hover {
+                text-decoration: underline;
+            }
+</style>

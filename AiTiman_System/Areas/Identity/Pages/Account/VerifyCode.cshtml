@@ -1,0 +1,137 @@
+﻿@page
+@model AiTiman_System.Areas.Identity.Pages.Account.VerifyCodeModel
+
+@{
+    ViewData["Title"] = "Verify Code";
+}
+
+<div class="patient-registration-page">
+    <div class="form-container">
+        <h2 class="form-title">@ViewData["Title"]</h2>
+<form method="post">
+    <input type="hidden" asp-for="UserId" />
+    <div class="form-group">
+        <p>"Enter the verification code sent to your email to complete your registration. </p>
+        <p>If you didn't receive the code, please check your spam folder or request a new one."</p>
+        <label asp-for="Code">Verification Code</label>
+        <input asp-for="Code" class="form-control" required />
+        <span asp-validation-for="Code" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Verify</button>
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+</form>
+</div>
+</div>
+
+<style>
+    /* General Styling */
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        height: 100vh;
+    }
+
+    /* Login Page Styling */
+    .login-page {
+        width: 100%;
+        height: 90%;
+    }
+
+    /* Form Container */
+    .form-container {
+        background-color: #ffffff;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 8px 16px rgba(173, 216, 230, 0.4), 0 6px 20px rgba(173, 216, 230, 0.3);
+        width: 100%;
+        max-height: 80vh; /* Adjust based on your needs */
+        overflow-y: auto;
+        max-width: 400px;
+        margin: 0 1rem;
+    }
+
+    /* Form Title */
+    .form-title {
+        text-align: center;
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+        color: #333;
+    }
+
+    /* Input Group */
+    .input-group {
+        margin-bottom: 1.5rem;
+    }
+
+    /* Input Labels */
+    .input-label {
+        display: block;
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+        color: #555;
+    }
+
+    /* Input Fields */
+    .input-field {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 1rem;
+        box-sizing: border-box;
+    }
+
+        .input-field:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+    /* Error Message Styling */
+    .error-message {
+        color: #e74c3c;
+        font-size: 0.85rem;
+    }
+
+    /* Checkbox Styling */
+    .checkbox-label {
+        margin-left: 0.5rem;
+        font-size: 0.9rem;
+        color: #555;
+    }
+
+    /* Buttons */
+    .btn {
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 5px;
+        font-size: 1rem;
+        cursor: pointer;
+        width: 100%;
+    }
+
+    .btn-login {
+        background-color: #007bff;
+        color: white;
+    }
+
+        .btn-login:hover {
+            background-color: #0056b3;
+        }
+
+    /* Form Footer Links */
+    .form-footer {
+        text-align: center;
+        margin-top: 1rem;
+    }
+
+        .form-footer .link {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+            .form-footer .link:hover {
+                text-decoration: underline;
+            }
+</style>

@@ -1,0 +1,337 @@
+﻿@{
+    ViewData["Title"] = "Book Appointment";
+    Layout = "~/Views/Shared/_PatientLayout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f6f9;
+            color: #333;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            margin: auto;
+            padding: 20px;
+            box-sizing: border-box;
+            background-color: white; /* Light blue background color */
+            border-radius: 8px; /* Optional: rounded corners for the container */
+        }
+
+        .box {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .calendar-container, .info-container {
+            margin-bottom: 20px;
+        }
+
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+
+        .calendar-day {
+            padding: 12px;
+            background: #f8f9fa;
+            text-align: center;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+            .calendar-day.available {
+                background-color: #007bff;
+                color: #fff;
+            }
+
+            .calendar-day.completed {
+                background-color: #dc3545;
+                color: #fff;
+            }
+
+            .calendar-day:hover {
+                background-color: #0056b3;
+                color: #fff;
+            }
+
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #e0e0e0;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            cursor: pointer;
+            background-color: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            border-bottom: none;
+            transition: background-color 0.3s;
+        }
+
+            .tab.active {
+                background-color: #fff;
+                font-weight: bold;
+                border-bottom: 2px solid #007bff;
+            }
+
+        .tab-content {
+            display: none;
+        }
+
+            .tab-content.active {
+                display: block;
+            }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"], input[type="date"], input[type="time"], select, textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 10px;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"], button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+
+            input[type="submit"]:hover, button:hover {
+                background: #0056b3;
+            }
+
+        .info-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        .info-item {;
+            padding: 10px;
+            background: #f8f9f border-radius: 5px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .box-content {
+            display: flex;
+            gap: 20px;
+        }
+
+        .review-section p {
+            margin: 5px 0;
+        }
+    </style>
+    <script>
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(tabId).classList.add('active');
+
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
+        }
+
+        function calculateAge(birthdate) {
+            const today = new Date();
+            const birthDate = new Date(birthdate);
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const monthDifference = today.getMonth() - birthDate.getMonth();
+            if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            return age;
+        }
+
+        function reviewBooking() {
+            const patientName = document.getElementById('patient-name').value;
+            const address = document.getElementById('address').value;
+            const birthdate = document.getElementById('birthdate').value;
+            const age = calculateAge(birthdate);
+            const consultationType = document.getElementById('consultation-type').value;
+            const doctor = document.getElementById('doctor').value;
+            const date = document.getElementById('date').value;
+            const time = document.getElementById('time').value;
+            const bhwInCharge = document.getElementById('bhw-in-charge').value;
+
+            document.getElementById('review-patient-name').textContent = patientName;
+            document.getElementById('review-address').textContent = address;
+            document.getElementById('review-birthdate').textContent = birthdate;
+            document.getElementById('review-age').textContent = age;
+            document.getElementById('review-consultation-type').textContent = consultationType;
+            document.getElementById('review-doctor').textContent = doctor;
+            document.getElementById('review-date').textContent = date;
+            document.getElementById('review-time').textContent = time;
+            document.getElementById('review-bhw-in-charge').textContent = bhwInCharge;
+
+            switchTab('review-section');
+        }
+
+        function submitBooking() {
+            const formData = new FormData(document.getElementById('appointment-form'));
+
+            fetch('/Appointment/Book', {
+                method: 'POST',
+                body: formData,
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Your appointment has been successfully booked.');
+                        document.getElementById('review-section').innerHTML = '<h3>Appointment Booked</h3><p>Your appointment has been successfully booked.</p>';
+                    } else {
+                        alert('There was an error booking your appointment. Please try again.');
+                        switchTab('booking-section');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('There was an error booking your appointment. Please try again.');
+                    switchTab('booking-section');
+                });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            switchTab('booking-section');
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="box">
+            <div class="box-content">
+                <div class="calendar-container">
+                    <h3>Select Available Slot</h3>
+                    <div class="calendar">
+                        <!-- Example full-month calendar; this should be dynamically generated -->
+                        <div class="calendar-day available">1</div>
+                        <div class="calendar-day">2</div>
+                        <div class="calendar-day">3</div>
+                        <div class="calendar-day completed">4</div>
+                        <div class="calendar-day">5</div>
+                        <div class="calendar-day available">6</div>
+                        <div class="calendar-day">7</div>
+                        <!-- Additional days go here -->
+                        <div class="calendar-day">8</div>
+                        <div class="calendar-day">9</div>
+                        <div class="calendar-day available">10</div>
+                        <div class="calendar-day">11</div>
+                        <div class="calendar-day">12</div>
+                        <div class="calendar-day completed">13</div>
+                        <div class="calendar-day">14</div>
+                        <!-- Additional days continue for the full month -->
+                    </div>
+                </div>
+
+                <div class="info-container">
+                    <div class="info-item">
+                        <strong>What:</strong> <span id="notification-what">Consultation</span>
+                    </div>
+                    <div class="info-item">
+                        <strong>Where:</strong> <span id="notification-where">Main Clinic</span>
+                    </div>
+                    <div class="info-item">
+                        <strong>When:</strong> <span id="notification-when">[Selected Date & Time]</span>
+                    </div>
+                    <div class="info-item">
+                        <strong>Doctor:</strong> <span id="notification-doctor">[Doctor Name]</span>
+                    </div>
+                    <div class="info-item">
+                        <strong>BHW:</strong> <span id="notification-bhw">[BHW Name]</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tabs">
+                <div class="tab active" data-tab="booking-section" onclick="switchTab('booking-section')">Appointment Details</div>
+                <div class="tab" data-tab="review-section" onclick="reviewBooking()">Review & Confirm</div>
+            </div>
+
+            <div id="booking-section" class="tab-content active">
+                <form id="appointment-form">
+                    <label for="patient-name">Patient Name:</label>
+                    <input type="text" id="patient-name" name="patient-name" required>
+
+                    <label for="address">Address:</label>
+                    <input type="text" id="address" name="address" required>
+
+                    <label for="birthdate">Birthdate:</label>
+                    <input type="date" id="birthdate" name="birthdate" required>
+
+                    <label for="consultation-type">Consultation Type:</label>
+                    <select id="consultation-type" name="consultation-type" required>
+                        <option value="General Consultation">General Consultation</option>
+                        <option value="Follow-up Consultation">Follow-up Consultation</option>
+                        <!-- Additional options here -->
+                    </select>
+
+                    <label for="doctor">Doctor:</label>
+                    <input type="text" id="doctor" name="doctor" required>
+
+                    <label for="date">Date:</label>
+                    <input type="date" id="date" name="date" required>
+
+                    <label for="time">Time:</label>
+                    <input type="time" id="time" name="time" required>
+
+                    <label for="bhw-in-charge">BHW in Charge:</label>
+                    <input type="text" id="bhw-in-charge" name="bhw-in-charge" required>
+                </form>
+                <button onclick="reviewBooking()">Review Booking</button>
+            </div>
+
+            <div id="review-section" class="tab-content">
+                <h3>Review Your Booking</h3>
+                <p><strong>Patient Name:</strong> <span id="review-patient-name"></span></p>
+                <p><strong>Address:</strong> <span id="review-address"></span></p>
+                <p><strong>Birthdate:</strong> <span id="review-birthdate"></span></p>
+                <p><strong>Age:</strong> <span id="review-age"></span></p>
+                <p><strong>Consultation Type:</strong> <span id="review-consultation-type"></span></p>
+                <p><strong>Doctor:</strong> <span id="review-doctor"></span></p>
+                <p><strong>Date:</strong> <span id="review-date"></span></p>
+                <p><strong>Time:</strong> <span id="review-time"></span></p>
+                <p><strong>BHW in Charge:</strong> <span id="review-bhw-in-charge"></span></p>
+
+                <button onclick="submitBooking()">Confirm Booking</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

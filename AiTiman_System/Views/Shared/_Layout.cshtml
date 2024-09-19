@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>AiTiman: Streamlining Outpatient Care </title>
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="~/images/Timan/s-logo.png">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/style2.css">
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/AiTiman.styles.css" asp-append-version="true" />
+</head>
+<body style="position:fixed">
+    <div class="background-circle"></div>
+    <div class="background-circle1"></div>
+    <div class="logo">
+        <img src="~/images/Timan/ai.png" alt="Ai-Timan Logo">
+    </div>
+    <div class="image1">
+        <img src="~/images/Timan/bhw1.jpg" alt="Healthcare">
+    </div>
+    <div class="image-text">
+        <span>BHW LAPAY, ARGAO</span>
+    </div>
+
+
+    <header>
+        <div class="navbar">
+            <nav>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Services</a></li>
+                    @* <li><a href="/Identity/Account/Register">Register</a></li>*@
+                    <li><a href="/Identity/Account/Login">Login</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <main role="main" class="pb-3" style="position:fixed; margin-top:6%;">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 - Ai-Timan: Streamlining Outpatient Care</p>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>

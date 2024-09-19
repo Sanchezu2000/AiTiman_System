@@ -1,0 +1,187 @@
+﻿@*@model ProfileModel
+
+@{
+    ViewData["Title"] = "EditProfile";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="content-body">
+    <div class="container-fluid">
+        <div class="row">
+
+            <div class="col-lg-4 col-xl-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="media align-items-center mb-4 position-relative">
+                            <!-- Profile Picture with Edit Icon -->
+                            <div class="position-relative">
+                                <!-- Image Preview -->
+                                <img id="profilePic" class="mr-3 rounded-circle"
+                                     src="@(Model.ProfilePictureUrl ?? Url.Content("~/images/Timan/user.png"))"
+                                     width="80" height="80" alt="Profile Picture">
+
+                                <!-- File Input Hidden -->
+                                <input type="file" id="profilePicInput" accept="image/*" style="display: none;" onchange="previewImage(event)">
+
+                                <!-- Edit Icon Overlay -->
+                                <a href="#" class="position-absolute" style="bottom: 0; right: 0;" onclick="document.getElementById('profilePicInput').click();">
+                                    <i class="fa fa-edit" style="font-size: 1.5rem; color: #007bff;"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <form id="profilePicForm" enctype="multipart/form-data" method="post" action="/Admin/UploadProfilePicture">
+                            <input type="file" id="profilePicInput" accept="image/*" style="display: none;" onchange="previewImage(event)">
+                            <button type="submit" style="display: none;" id="submitProfilePic">Upload</button>
+                        </form>
+                        <div class="row mb-5">
+                            <div class="col">
+                                <div class="card card-profile text-center">
+                                    <span class="mb-1 text-primary"><i class="icon-user"></i></span>
+                                    <h3 class="mb-0">@Model.Age</h3>
+                                    <p class="text-muted px-4">@Model.AgeGroupClassification</p>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="card card-profile text-center">
+                                    <span class="mb-1 text-warning"><i class="icon-folder"></i></span>
+                                    <h3 class="mb-0"></h3>
+                                    <p class="text-muted">Records</p>
+                                </div>
+                            </div>
+
+                            <div class="media-body">
+                                <h3 class="mb-0">@Model.UserName</h3>
+                                <p class="text-muted mb-0">@Model.Address</p>
+                                <p class="text-muted mb-0">@Model.UnverifiedRole</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-8 col-xl-9">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Vertical Form</h4>
+                        <div class="basic-form">
+                            <form asp-action="SaveUserProfile" method="post">
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label asp-for="UserName"></label>
+                                        <input type="text" asp-for="UserName" class="form-control" placeholder="Enter Username" required>
+                                        <span asp-validation-for="UserName" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label asp-for="Email"></label>
+                                        <input type="email" asp-for="Email" class="form-control" placeholder="Enter Email" required>
+                                        <span asp-validation-for="Email" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label asp-for="FirstName"></label>
+                                        <input type="text" asp-for="FirstName" class="form-control" placeholder="Enter First Name" required>
+                                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label asp-for="LastName"></label>
+                                        <input type="text" asp-for="LastName" class="form-control" placeholder="Enter Last Name" required>
+                                        <span asp-validation-for="LastName" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label asp-for="CompleteAddress"></label>
+                                    <input type="text" asp-for="CompleteAddress" class="form-control" placeholder="Enter Complete Address" required>
+                                    <span asp-validation-for="CompleteAddress" class="text-danger"></span>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label asp-for="Religion"></label>
+                                        <input type="text" asp-for="Religion" class="form-control" placeholder="Enter Religion" required>
+                                        <span asp-validation-for="Religion" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label asp-for="PhoneNumber"></label>
+                                        <input type="text" asp-for="PhoneNumber" class="form-control" placeholder="09xxxxxxxxx" pattern="09[0-9]{9}" maxlength="11" required>
+                                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label asp-for="Gender"></label>
+                                        <select asp-for="Gender" class="form-control" required>
+                                            <option value="" selected disabled>Choose Gender...</option>
+                                            <option value="Male">Male</option>
+                                            <option value="Female">Female</option>
+                                        </select>
+                                        <span asp-validation-for="Gender" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label asp-for="Status"></label>
+                                        <select asp-for="Status" class="form-control" required>
+                                            <option value="" selected disabled>Choose Status...</option>
+                                            <option value="Single">Single</option>
+                                            <option value="Married">Married</option>
+                                            <option value="Widow">Widow</option>
+                                            <option value="Other">Other</option>
+                                        </select>
+                                        <span asp-validation-for="Status" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label asp-for="GuardianName"></label>
+                                    <input type="text" asp-for="GuardianName" class="form-control" placeholder="Enter Guardian Name" required>
+                                    <span asp-validation-for="GuardianName" class="text-danger"></span>
+                                </div>
+
+                                <button type="submit" class="btn btn-dark">Save Profile</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    function previewImage(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                document.getElementById('profilePic').src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    document.getElementById('profilePicForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const formData = new FormData(this);
+
+        fetch('/Admin/UploadProfilePicture', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Handle success
+                location.reload(); // Reload the page to reflect changes
+            })
+            .catch(error => {
+                // Handle error
+                console.error('Error uploading profile picture:', error);
+            });
+    });
+</script>
+
+*@          

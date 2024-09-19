@@ -1,0 +1,123 @@
+﻿@model ProfileModel
+
+
+@{
+    ViewData["Title"] = "Admin Profile";
+    <p>@ViewData["ErrorMessage"]</p>
+
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="content-body">
+    <div class="container-fluid">
+        <div class="row">
+
+            <div class="col-lg-4 col-xl-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="media align-items-center mb-4 position-relative">
+                            <!-- Profile Picture with Edit Icon -->
+                            <div class="position-relative">
+                                <!-- Image Preview -->
+                                <img id="profilePic" class="mr-3 rounded-circle"
+                                     src="@(string.IsNullOrEmpty(Model.ProfilePictureUrl) ? Url.Content("~/images/Timan/user.png") : Model.ProfilePictureUrl)"
+                                     width="80" height="80" alt="Profile Picture">
+
+                            </div>
+                        </div>
+                        <div class="row mb-5">
+                            <div class="col">
+                                <div class="card card-profile text-center">
+                                    <span class="mb-1 text-primary"><i class="icon-user"></i></span>
+                                    <h3 class="mb-0">@Model.Age</h3>
+                                    <p class="text-muted px-4">@Model.AgeGroupClassification</p>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="card card-profile text-center">
+                                    <span class="mb-1 text-warning"><i class="icon-folder"></i></span>
+                                    <h3 class="mb-0"></h3>
+                                    <p class="text-muted">Records</p>
+                                </div>
+                            </div>
+
+                            <div class="media-body">
+                                <h3 class="mb-0">@Model.UserName</h3>
+                                <p class="text-muted mb-0">@Model.Address</p>
+                                <p class="text-muted mb-0">@Model.UnverifiedRole</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-8 col-xl-9">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Account Profile</h4>
+                        <div class="basic-form">
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        
+                                        <p class="text-muted mb-0">@Model.UserName</p>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <p class="text-muted mb-0">@Model.Email</p>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <p class="text-muted mb-0">@Model.FirstName</p>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <p class="text-muted mb-0">@Model.LastName</p>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <p class="text-muted mb-0">@Model.CompleteAddress</p>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <p class="text-muted mb-0">@Model.Religion</p>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <p class="text-muted mb-0">@Model.PhoneNumber</p>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <p class="text-muted mb-0">@Model.Gender</p>
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <p class="text-muted mb-0">@Model.Status</p>
+                                    </div>
+                                </div>
+
+                                @{
+                                    int userAge = 0;
+                                    int.TryParse(Model.Age, out userAge);
+                                }
+
+                                @if (userAge < 18 || userAge >= 60)
+                                {
+                                    <div class="form-group" id="guardianNameGroup">
+                                        <p class="text-muted mb-0">@Model.GuardianName</p>
+                                    </div>
+                                }
+                                <button type="submit" class="btn btn-dark">Edit Profile</button>
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,155 @@
+﻿@using AiTiman_System.Models
+@model ProfileModel
+@{
+    ViewData["Title"] = "Admin Profile";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="content-body">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Profile Picture and Sign Picture -->
+            <div class="col-lg-4 col-xl-3">
+                <div class="card">
+                    <div class="card-body">
+                        <!-- Profile Picture with Edit Icon -->
+                        <div class="media align-items-center mb-4 position-relative">
+                            <div class="position-relative">
+                                <img id="profilePic" class="mr-3 rounded-circle"
+                                     src="@(Model.ProfilePictureUrl ?? Url.Content("~/images/Timan/user.png"))"
+                                     width="80" height="80" alt="Profile Picture">
+                                <input type="file" id="profilePicInput" name="ProfilePicture" accept="image/*" style="display: none;" onchange="previewImage(event, 'profilePic')">
+                                <a href="#" class="position-absolute" style="bottom: 0; right: 0;" onclick="document.getElementById('profilePicInput').click(); return false;">
+                                    <i class="fa fa-edit" style="font-size: 1.5rem; color: #007bff;"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Sign Picture with Edit Icon (conditionally rendered) -->
+                        @if (Model.UnverifiedRole == "HealthProvider")
+                        {
+                            <div class="media align-items-center mb-4 position-relative">
+                                <div class="position-relative">
+                                    <img id="signPic" class="mr-3 rounded-circle"
+                                     src="@(Model.SignPictureUrl ?? Url.Content("~/images/Timan/sign.png"))"
+                                     width="80" height="80" alt="Sign Picture">
+                                    <input type="file" id="signPicInput" name="SignPicture" accept="image/*" style="display: none;" onchange="previewImage(event, 'signPic')">
+                                    <a href="#" class="position-absolute" style="bottom: 0; right: 0;" onclick="document.getElementById('signPicInput').click(); return false;">
+                                        <i class="fa fa-edit" style="font-size: 1.5rem; color: #007bff;"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Details and Form -->
+            <div class="col-lg-8 col-xl-9">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Profile Information</h4>
+                        <div class="basic-form">
+                            <form asp-action="SaveUserProfile" method="post" enctype="multipart/form-data">
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label asp-for="UserName"></label>
+                                        <input type="text" asp-for="UserName" class="form-control" placeholder="Enter Username" required>
+                                        <span asp-validation-for="UserName" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label asp-for="Email"></label>
+                                        <input type="email" asp-for="Email" class="form-control" placeholder="Enter Email" required>
+                                        <span asp-validation-for="Email" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label asp-for="FirstName"></label>
+                                        <input type="text" asp-for="FirstName" class="form-control" placeholder="Enter First Name" required>
+                                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label asp-for="LastName"></label>
+                                        <input type="text" asp-for="LastName" class="form-control" placeholder="Enter Last Name" required>
+                                        <span asp-validation-for="LastName" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="CompleteAddress"></label>
+                                    <input type="text" asp-for="CompleteAddress" class="form-control" placeholder="Enter Complete Address" required>
+                                    <span asp-validation-for="CompleteAddress" class="text-danger"></span>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label asp-for="Religion"></label>
+                                        <input type="text" asp-for="Religion" class="form-control" placeholder="Enter Religion" required>
+                                        <span asp-validation-for="Religion" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label asp-for="PhoneNumber"></label>
+                                        <input type="text" asp-for="PhoneNumber" class="form-control" placeholder="09xxxxxxxxx" pattern="09[0-9]{9}" maxlength="11" required>
+                                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label asp-for="Gender"></label>
+                                        <select asp-for="Gender" class="form-control" required>
+                                            <option value="" selected disabled>Choose Gender...</option>
+                                            <option value="Male">Male</option>
+                                            <option value="Female">Female</option>
+                                        </select>
+                                        <span asp-validation-for="Gender" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label asp-for="Status"></label>
+                                        <select asp-for="Status" class="form-control" required>
+                                            <option value="" selected disabled>Choose Status...</option>
+                                            <option value="Single">Single</option>
+                                            <option value="Married">Married</option>
+                                            <option value="Widow">Widow</option>
+                                            <option value="Other">Other</option>
+                                        </select>
+                                        <span asp-validation-for="Status" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group" id="guardianNameGroup" style="display: none;">
+                                    <label asp-for="GuardianName"></label>
+                                    <input type="text" asp-for="GuardianName" class="form-control" placeholder="Enter Guardian Name">
+                                    <span asp-validation-for="GuardianName" class="text-danger"></span>
+                                </div>
+                                <button type="submit" class="btn btn-dark">Save Profile</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Image preview for Profile Picture and Sign Picture
+    function previewImage(event, imgId) {
+        var reader = new FileReader();
+        reader.onload = function () {
+            var output = document.getElementById(imgId);
+            output.src = reader.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+
+    // Display the guardian name field based on age
+    function checkGuardianRequired(age) {
+        var guardianField = document.getElementById('guardianNameGroup');
+        if (age < 18 || age >= 60) {
+            guardianField.style.display = 'block';
+        } else {
+            guardianField.style.display = 'none';
+        }
+    }
+
+    // Initial check based on model data
+    checkGuardianRequired(@Model.Age);
+</script>

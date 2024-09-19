@@ -1,0 +1,207 @@
+﻿@{
+    ViewData["Title"] = "Reports";
+    Layout = "~/Views/Shared/_PatientLayout.cshtml";
+}
+
+<div class="reports-dashboard">
+    <h2>Reports Dashboard</h2>
+
+    <div class="report-filters">
+        <div class="filter-group">
+            <label for="reportType">Report Type:</label>
+            <select id="reportType" class="filter-input">
+                <option value="summary">Summary</option>
+                <option value="detailed">Detailed</option>
+                <option value="custom">Custom</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label for="dateRange">Date Range:</label>
+            <input type="date" id="startDate" class="filter-input">
+            <span>to</span>
+            <input type="date" id="endDate" class="filter-input">
+        </div>
+
+        <div class="filter-group">
+            <button class="generate-report-btn">Generate Report</button>
+        </div>
+    </div>
+
+    <div class="report-output">
+        <h3>Data Analytics Report</h3>
+        <div class="report-content">
+            <div class="analytics-section">
+                <div class="analytics-card">
+                    <h4>Common Illnesses</h4>
+                    <ul class="illness-list">
+                        <li>
+                            <span class="illness-name">Flu</span>
+                            <span class="illness-percentage">25%</span>
+                        </li>
+                        <li>
+                            <span class="illness-name">Cold</span>
+                            <span class="illness-percentage">18%</span>
+                        </li>
+                        <li>
+                            <span class="illness-name">Allergy</span>
+                            <span class="illness-percentage">15%</span>
+                        </li>
+                        <li>
+                            <span class="illness-name">Diabetes</span>
+                            <span class="illness-percentage">12%</span>
+                        </li>
+                        <li>
+                            <span class="illness-name">Hypertension</span>
+                            <span class="illness-percentage">10%</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="analytics-card">
+                    <h4>In-Demand Medicines</h4>
+                    <ul class="medicine-list">
+                        <li>
+                            <span class="medicine-name">Paracetamol</span>
+                            <span class="medicine-percentage">30%</span>
+                        </li>
+                        <li>
+                            <span class="medicine-name">Ibuprofen</span>
+                            <span class="medicine-percentage">22%</span>
+                        </li>
+                        <li>
+                            <span class="medicine-name">Antihistamines</span>
+                            <span class="medicine-percentage">20%</span>
+                        </li>
+                        <li>
+                            <span class="medicine-name">Insulin</span>
+                            <span class="medicine-percentage">18%</span>
+                        </li>
+                        <li>
+                            <span class="medicine-name">Cough Syrup</span>
+                            <span class="medicine-percentage">10%</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .reports-dashboard {
+        font-family: Arial, sans-serif;
+        margin: 20px auto;
+        padding: 20px;
+        max-width: 900px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    }
+
+        .reports-dashboard h2 {
+            font-size: 28px;
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+
+    .report-filters {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 30px;
+    }
+
+    .filter-group {
+        display: flex;
+        align-items: center;
+    }
+
+        .filter-group label {
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+    .filter-input {
+        padding: 8px 12px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+
+    .generate-report-btn {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 4px;
+        font-size: 16px;
+    }
+
+        .generate-report-btn:hover {
+            background-color: #0056b3;
+        }
+
+    .report-output {
+        margin-top: 30px;
+    }
+
+        .report-output h3 {
+            font-size: 24px;
+            color: #333;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+    .report-content {
+        padding: 20px;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .analytics-section {
+        display: flex;
+        justify-content: space-around;
+        gap: 20px;
+    }
+
+    .analytics-card {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 45%;
+    }
+
+        .analytics-card h4 {
+            font-size: 20px;
+            color: #007bff;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+    .illness-list, .medicine-list {
+        list-style-type: none;
+        padding: 0;
+    }
+
+        .illness-list li, .medicine-list li {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+    .illness-name, .medicine-name {
+        font-weight: bold;
+        color: #555;
+    }
+
+    .illness-percentage, .medicine-percentage {
+        font-weight: bold;
+        color: #28a745;
+    }
+</style>

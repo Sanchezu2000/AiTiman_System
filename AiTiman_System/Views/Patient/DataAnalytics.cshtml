@@ -1,0 +1,73 @@
+﻿@{
+    ViewData["Title"] = "Data Analytics";
+    Layout = "~/Views/Shared/_PatientLayout.cshtml";
+}
+
+<div class="container">
+
+    <!-- Common Illnesses Section -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3>Common Illnesses</h3>
+        </div>
+        <div class="card-body">
+            @if (Model.CommonIllnesses != null && Model.CommonIllnesses.Any())
+            {
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Illness</th>
+                            <th>Number of Cases</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var illness in Model.CommonIllnesses)
+                        {
+                            <tr>
+                                <td>@illness.Name</td>
+                                <td>@illness.CaseCount</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p>No data available for common illnesses.</p>
+            }
+        </div>
+    </div>
+
+    <!-- In-Demand Medicines Section -->
+    <div class="card">
+        <div class="card-header">
+            <h3>In-Demand Medicines</h3>
+        </div>
+        <div class="card-body">
+            @if (Model.InDemandMedicines != null && Model.InDemandMedicines.Any())
+            {
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Medicine</th>
+                            <th>Demand Level</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var medicine in Model.InDemandMedicines)
+                        {
+                            <tr>
+                                <td>@medicine.Name</td>
+                                <td>@medicine.DemandLevel</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p>No data available for in-demand medicines.</p>
+            }
+        </div>
+    </div>
+</div>

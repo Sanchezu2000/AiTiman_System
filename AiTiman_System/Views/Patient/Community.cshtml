@@ -1,0 +1,209 @@
+﻿@{
+    ViewData["Title"] = "Community Dashboard";
+    Layout = "~/Views/Shared/_PatientLayout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #495057;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            font-size: 36px;
+            color: #007bff;
+            margin-bottom: 40px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            cursor: pointer;
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+            position: relative;
+            border: none;
+        }
+
+            .card:hover {
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+                transform: translateY(-8px);
+            }
+
+            .card h3 {
+                margin-top: 15px;
+                color: #007bff;
+                font-size: 28px;
+                font-weight: bold;
+            }
+
+            .card p {
+                font-size: 18px;
+                color: #666;
+            }
+
+            .card i {
+                font-size: 50px;
+                color: #007bff;
+                margin-bottom: 15px;
+            }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.4);
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            width: 80%;
+            max-width: 600px;
+            text-align: center;
+            position: relative;
+        }
+
+            .modal-content h2 {
+                margin-top: 0;
+                color: #007bff;
+            }
+
+            .modal-content p {
+                font-size: 16px;
+                color: #495057;
+            }
+
+        .close {
+            color: #aaa;
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 30px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+            .close:hover, .close:focus {
+                color: #007bff;
+                text-decoration: none;
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Community Dashboard</h1>
+
+        <div class="dashboard">
+            <div class="card" onclick="openModal('patientsModal')">
+                <i class="fas fa-users"></i>
+                <h3 id="patientsCount">0</h3>
+                <p>Patients</p>
+            </div>
+
+            <div class="card" onclick="openModal('practitionersModal')">
+                <i class="fas fa-user-md"></i>
+                <h3 id="practitionersCount">0</h3>
+                <p>Practitioners</p>
+            </div>
+
+            <div class="card" onclick="openModal('bhwsModal')">
+                <i class="fas fa-user-nurse"></i>
+                <h3 id="bhwsCount">0</h3>
+                <p>Barangay Health Workers (BHWs)</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div id="patientsModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('patientsModal')">&times;</span>
+            <h2>Patients</h2>
+            <p>Details about the patients will be displayed here.</p>
+            <!-- Add more detailed patient information here -->
+        </div>
+    </div>
+
+    <div id="practitionersModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('practitionersModal')">&times;</span>
+            <h2>Practitioners</h2>
+            <p>Details about the practitioners will be displayed here.</p>
+            <!-- Add more detailed practitioner information here -->
+        </div>
+    </div>
+
+    <div id="bhwsModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('bhwsModal')">&times;</span>
+            <h2>Barangay Health Workers (BHWs)</h2>
+            <p>Details about the BHWs will be displayed here.</p>
+            <!-- Add more detailed BHW information here -->
+        </div>
+    </div>
+
+    <!-- Include FontAwesome for icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script>
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = "block";
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = "none";
+        }
+
+        // Close the modal when clicking outside of it
+        window.onclick = function (event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = "none";
+            }
+        }
+
+        // Function to dynamically set the number of patients, practitioners, and BHWs
+        function updateDashboard(patientsCount, practitionersCount, bhwsCount) {
+            document.getElementById('patientsCount').textContent = patientsCount;
+            document.getElementById('practitionersCount').textContent = practitionersCount;
+            document.getElementById('bhwsCount').textContent = bhwsCount;
+        }
+
+        // Example data update
+        updateDashboard(150, 25, 10);
+    </script>
+</body>
+</html>
